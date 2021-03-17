@@ -88,7 +88,7 @@ def parse_file(fname, points, transform, screen, color):
                           int(points[i + 1][0]), int(points[i + 1][1]),
                           screen, color)
             save_extension(screen, commands[curr + 1])
-            curr += 1
+            curr += 2
         else:
-            print(commands[curr])
+            print(f"Undefined command: {commands[curr]}")
             curr += 1
