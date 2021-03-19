@@ -89,6 +89,8 @@ def parse_file(fname, points, transform, screen, color):
                           screen, color)
             save_extension(screen, commands[curr + 1])
             curr += 2
+        elif commands[curr] == "quit":
+            curr = len(commands)
         else:
             print(f"Undefined command: {commands[curr]}")
             curr += 1
