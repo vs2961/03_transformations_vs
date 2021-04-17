@@ -38,10 +38,12 @@ def parse_file(fname, points, transform, screen, color):
     # Get all the commands
     fil = open(fname, "r")
     commands = []
+    all_img = []
     for x in fil:
         commands.append(x.strip())
     curr = 0
     while curr < len(commands):
+        print(curr, len(commands))
         if commands[curr] == "line":
             x0, y0, z0, x1, y1, z1 = [float(i) for i in commands[curr + 1].split(" ")]
             add_edge(points, x0, y0, z0, x1, y1, z1)
@@ -88,6 +90,26 @@ def parse_file(fname, points, transform, screen, color):
                           int(points[i + 1][0]), int(points[i + 1][1]),
                           screen, color)
             save_extension(screen, commands[curr + 1])
+            curr += 2
+        elif commands[curr] == "add_gif":
+            clear_screen(screen)
+            for i in range(0, len(points), 2):
+                draw_line(int(points[i][0]), int(points[i][1]),
+                          int(points[i + 1][0]), int(points[i + 1][1]),
+                          screen, color)
+            all_img.append(return_img(screen))
+            curr += 1
+        elif commands[curr] == "make_gif":
+            print(len(all_img))
+            make_gif(all_img)
+            curr += 1
+        elif commands[curr] == "print_trans":
+            print_matrix(transform)
+            curr += 1
+        elif commands[curr] == "set_background":
+            for i in range(len(screen)):
+                for j in range(i):
+                    screen[i][j] = [int(i) for i in commands[curr + 1].split(" ")]
             curr += 2
         else:
             print(f"Undefined command: {commands[curr]}")

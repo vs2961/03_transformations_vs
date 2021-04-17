@@ -10,7 +10,7 @@ RED = 0
 GREEN = 1
 BLUE = 2
 
-DEFAULT_COLOR = [255, 255, 255]
+DEFAULT_COLOR = [0, 0, 0]
 
 def new_screen( width = XRES, height = YRES ):
     screen = []
@@ -71,6 +71,20 @@ def save_extension( screen, fname ):
     # p.communicate()
     # remove(ppm_name)
 
+def return_img(screen):
+    img = Image.new('RGB', (len(screen[0]), len(screen)))
+
+    pixels = []
+    for row in screen:
+        for pixel in row:
+            pixels.append( tuple(pixel) )
+
+    img.putdata(pixels)
+    return img
+
+def make_gif(imgs):
+    imgs[0].save('out.gif', save_all=True, append_images=imgs[1:], optimize=False, loop=0)
+
 def display( screen ):
     img = Image.new('RGB', (len(screen[0]), len(screen)))
 
@@ -81,8 +95,8 @@ def display( screen ):
 
     img.putdata(pixels)
     img.show()
-    """ppm_name = 'pic.ppm'
-    save_ppm_ascii( screen, ppm_name )
-    p = Popen( ['display', ppm_name], stdin=PIPE, stdout = PIPE )
-    p.communicate()
-    remove(ppm_name)"""
+    # ppm_name = 'pic.ppm'
+    # save_ppm_ascii( screen, ppm_name )
+    # p = Popen( ['display', ppm_name], stdin=PIPE, stdout = PIPE )
+    # p.communicate()
+    # remove(ppm_name)
